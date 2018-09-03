@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    <title>建信智能物业云平台 - 房源管理</title>
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
+    <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+
+    <!-- Data Tables -->
+    <link href="css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="css/style.min.css?v=4.0.0" rel="stylesheet"><base target="_blank">
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>角色管理</h5>
+                    </div>
+					<div class="ibox-content">
+					
+                    <div class="ibox-content">
+                        <div class="">
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal5">
+								添加角色
+							</button>
+                        </div>
+                        <table class="table table-striped table-bordered table-hover " id="editable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+									<th>角色名</th>
+                                    <th>拥有权限</th>
+                                    <th>具体描述</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+							 <tr class="gradeX">	<td>0007</td>	<td>超级管理员</td>	<td>管理所有的管理员</td><td>最大权限</td></tr>
+							 <tr class="gradeX">	<td>0008</td>	<td>管理员</td>	<td>所有列表的管理</td>	<td>暂无</td></tr>
+							 <tr class="gradeX">	<td>0009</td>	<td>统计人员</td>	<td>对数据进行统计</td>	<td>暂无</td></tr>
+							 <tr class="gradeX">	<td>0010</td>	<td>评估员</td>	<td>对统计数据进行评估</td><td>暂无</td></tr>
+							 <tr class="gradeX">	<td>0011</td>	<td>采购员</td>	<td>负责员工的伙食</td>	<td>暂无</td></tr>
+							 <tr class="gradeX">	<td>0012</td>	<td>推销员</td>	<td>介绍销售公司产品</td><td>暂无</td></tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>ID</th>
+									<th>角色名</th>
+                                    <th>拥有权限</th>
+                                    <th>具体描述</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                    </div>
+					
+                </div>
+            </div>
+        </div>
+    </div>
+	
+	<div class="modal inmodal fade" id="myModal5" tabindex="-1" role="dialog"  aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h3 class="modal-title">添加房源信息</h3>
+				</div>
+				<div class="modal-body">
+					<div class="form-body">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-4" ng-class="{'has-error': addHomeForm.home_name.$invalid &amp;&amp; addHomeForm.home_name.$dirty}">
+									<input ng-blur="changeName(home.home_name)" maxlength="50" type="text" class="form-control changeName ng-pristine ng-untouched ng-invalid ng-invalid-required ng-valid-maxlength" name="home_name" ng-model="home.home_name" placeholder="房源编号" required="">
+								</div>
+								<!-- ngIf: home.need_id -->
+								<!-- ngIf: !home.home_id --><div class="col-md-4 ng-scope" ng-if="!home.home_id">
+									<div class="checkbox-list">
+										<label class="checkbox-inline">
+											<input type="checkbox" ng-model="home.need_id" name="home.need_id" class="ng-pristine ng-untouched ng-valid">
+											通过OPENApi对接其他系统
+										</label>
+										<i class="icon-question" popover="如果您要通过openapi来对接云丁SaaS，您可以通过设置房源与房间ID来与您的后台公寓信息做对应" popover-placement="bottom" popover-trigger="mouseenter"></i>
+									</div>
+								</div><!-- end ngIf: !home.home_id -->
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-4">
+									<select class="form-control ng-pristine ng-valid ng-touched" ng-model="home.home_type" name="home_type" ng-disabled="home.home_id">
+										<option value="1">分散式公寓</option>
+										<option value="2">集中式公寓</option>
+									</select>
+								</div>
+								<div class="col-md-8" ng-class="{'has-error': addHomeForm.block.$invalid &amp;&amp; addHomeForm.block.$dirty}">
+									<input maxlength="50" id="block" type="text" class="form-control ng-pristine ng-untouched ng-invalid ng-invalid-required ng-valid-maxlength" name="block" ng-model="home.block" placeholder="小区名称" required="">
+								</div>
+							</div>
+						</div>
+						<!-- ngIf: home.home_type==2&&!home.home_id -->
+						<!-- ngIf: true --><div class="form-group ng-scope" ng-if="true">
+							<div class="row">
+								<div class="col-md-4" ng-class="{'has-error': addHomeForm.province.$invalid &amp;&amp; addHomeForm.province.$dirty}">
+									<select class="form-control ng-pristine ng-untouched ng-valid" ng-model="$parent.province" name="province" ng-options="province for province in provinces" ng-change="get_cities()"><option value="" class="">省份/自治区</option><option value="0" label="北京市">北京市</option><option value="1" label="天津市">天津市</option><option value="2" label="河北省">河北省</option><option value="3" label="山西省">山西省</option><option value="4" label="内蒙古自治区">内蒙古自治区</option><option value="5" label="辽宁省">辽宁省</option><option value="6" label="吉林省">吉林省</option><option value="7" label="黑龙江省">黑龙江省</option><option value="8" label="上海市">上海市</option><option value="9" label="江苏省">江苏省</option><option value="10" label="浙江省">浙江省</option><option value="11" label="安徽省">安徽省</option><option value="12" label="福建省">福建省</option><option value="13" label="江西省">江西省</option><option value="14" label="山东省">山东省</option><option value="15" label="河南省">河南省</option><option value="16" label="湖北省">湖北省</option><option value="17" label="湖南省">湖南省</option><option value="18" label="广东省">广东省</option><option value="19" label="广西壮族自治区">广西壮族自治区</option><option value="20" label="海南省">海南省</option><option value="21" label="重庆市">重庆市</option><option value="22" label="四川省">四川省</option><option value="23" label="贵州省">贵州省</option><option value="24" label="云南省">云南省</option><option value="25" label="西藏自治区">西藏自治区</option><option value="26" label="陕西省">陕西省</option><option value="27" label="甘肃省">甘肃省</option><option value="28" label="青海省">青海省</option><option value="29" label="宁夏回族自治区">宁夏回族自治区</option><option value="30" label="新疆维吾尔自治区">新疆维吾尔自治区</option><option value="31" label="香港特别行政区">香港特别行政区</option><option value="32" label="澳门特别行政区">澳门特别行政区</option><option value="33" label="台湾省">台湾省</option></select>
+								</div>
+								<div class="col-md-4" ng-class="{'has-error': addHomeForm.city.$invalid &amp;&amp; addHomeForm.city.$dirty}">
+									<select class="form-control ng-pristine ng-untouched ng-valid" ng-model="$parent.city" name="city" ng-options="city for city in cities" ng-change="get_zones()"><option value="" class="">城市/地区</option></select>
+								</div>
+								<div class="col-md-4" ng-class="{'has-error': addHomeForm.zone.$invalid &amp;&amp; addHomeForm.zone.$dirty}">
+									<select class="form-control ng-pristine ng-untouched ng-valid" ng-model="$parent.zone" name="zone" ng-options="zone for zone in zones"><option value="" class="">区/县</option></select>
+								</div>
+							</div>
+						</div><!-- end ngIf: true -->
+						<!-- ngIf: home.home_id -->
+						<div class="form-group" ng-class="{'has-error': addHomeForm.location.$invalid &amp;&amp; addHomeForm.location.$dirty}">
+							<input maxlength="400" class="form-control ng-pristine ng-invalid ng-invalid-required ng-valid-maxlength ng-touched" ng-model="home.location" name="location" required="" placeholder="路名或街道地址，门牌号">
+						</div>
+						<div class="form-group">
+							<label>房间</label>
+							<div class="row room-list">
+								<!-- ngRepeat: room in home.rooms | filter: filter_in_room --><div class="room-item ng-scope col-md-4" ng-repeat="room in home.rooms | filter: filter_in_room" ng-class="{'col-md-4': !home.need_id, 'col-md-6': home.need_id}">
+									<div class="input-group">
+										<input type="text" class="form-control ng-pristine ng-untouched ng-valid" placeholder="房间名" ng-model="room.room_name" ng-class="{'half-size': home.need_id, 'has-name-error': room.is_name_error}" ng-change="check_room(room, 'name')">
+										<!-- ngIf: home.need_id -->
+										<span class="input-group-btn">
+											  <button class="btn btn-icon-only purple" type="button" ng-click="del_room(room)">
+												  <i class="fa fa-times"></i>
+											  </button>
+										</span>
+									</div>
+								</div><!-- end ngRepeat: room in home.rooms | filter: filter_in_room -->
+								<div class="col-md-2">
+									<button class="btn btn-icon-only btn-info" type="button" ng-click="add_room()">
+										<i class="fa fa-plus"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+						<div class="form-group ng-hide" ng-show="errMsg" ng-class="{'has-error': errMsg}">
+							<p ng-bind="errMsg" class="text-center help-block ng-binding"></p>
+						</div>
+					</div>
+		
+				</div><!--body end -->
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	
+	
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.5"></script>
+    <script src="js/plugins/jeditable/jquery.jeditable.js"></script>
+    <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+	 <script src="js/plugins/iCheck/icheck.min.js"></script>
+    <script>
+        $(document).ready(function(){
+			var oTable=$("#editable").dataTable();
+			
+		});
+		function fnClickAddRow(){
+			$("#editable").dataTable().fnAddData(["Custom row","New row","New row","New row","New row"])
+		};
+		
+		function add(){
+		  layer.open({
+			type: 2,
+			title: '欢迎页',
+			maxmin: true,
+			area: ['800px', '500px'],
+			content: 'house_add.html',
+			end: function(){
+			  layer.tips('Hi', '#about', {tips: 1})
+			}
+		  });
+		};
+		
+    </script>
+   <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
+</body>
+
+</html>
